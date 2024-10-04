@@ -100,80 +100,20 @@ var se_list_preinstall = {
 // 默认快捷方式
 var quick_list_preinstall = {
     '1': {
-        title: "我的主页",
-        url: "https://m-y.repl.co/",
-    },
-		'2': {
-        title: "我的博客",
-        url: "https://w.reol.ml/",
-    },
-    '3': {
-        title: "监控",
-        url: "https://up.reol.ml/",
-    },
-    '4': {
-        title: "后台",
-        url: "https://replit.com/@nav-i/nav-i#index.html/",
-    },
-    '5': {
-        title: "导航菜单",
-        url: "https://d-h.repl.co/",
-    },
-    '6': {
         title: "Office",
         url: "https://www.office.com/",
     },
-    '7': {
+    '2': {
         title: "百度网盘",
         url: "https://pan.baidu.com/",
     },
-    '8': {
+    '3': {
         title: "阿里云盘",
         url: "https://www.aliyundrive.com/drive/",
     },
-    '9': {
+    '4': {
         title: "哔哩哔哩",
         url: "https://www.bilibili.com/",
-    },
-    '10': {
-        title: "每日一文",
-        url: "https://meiriyiwen.com/",
-    },
-    '11': {
-        title: "drawio",
-        url: "https://draw-i.repl.co/",
-    },
-    '12': {
-        title: "我的网盘",
-        url: "https://c-d.repl.co",
-    },
-    '13': {
-        title: "R绘图",
-        url: "http://sthda.com/english/",
-    },
-    '14': {
-        title: "live2D",
-        url: "https://l2d.m-y.repl.co",
-    },
-		'15': {
-        title: "NovelAI",
-        url: "https://colab.research.google.com/drive/1_Ma71L6uGbtt6UQyA3FjqW2lcZ5Bjck-",
-    },
-		'16': {
-        title: "图床",
-        url: "https://i-u.repl.co/",
-    },
-		'17': {
-        title: "RSS",
-        url: "https://rss-i.repl.co/",
-    },
-		'18': {
-        title: "文件目录",
-        url: "https://reol.ml/",
-    },		
-		'19': {
-        title: "笔记",
-        url: "https://note-i.repl.co/",
     }
 	
 };
