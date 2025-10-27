@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>极简导航页</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #ffffff;
+            color: #1a1a1a;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 800px;
+            width: 100%;
+            padding: 20px;
+            transform: translateY(-30px);
+        }
+
+        .time-card {
+            background: rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            padding: 20px;
+            margin: 0 auto 15px;
+            width: 80%;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.2s ease;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .time-card:hover {
+            background: rgba(0, 0, 0, 0.06);
+            transform: translateY(-2px);
+        }
+
+        .time {
+            font-size: 2.5rem;
+            font-weight: 200;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .date {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            font-weight: 300;
+        }
+
+        .search-card {
+            background: rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            padding: 25px 30px;
+            width: 120%;
+            max-width: 700px;
+            margin: 0 auto;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.2s ease;
+            animation: fadeInUp 0.5s ease-out 0.1s both;
+        }
+
+        .search-card:hover {
+            background: rgba(0, 0, 0, 0.06);
+            transform: translateY(-2px);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 22px 45px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            background: #ffffff;
+            color: #1a1a1a;
+            font-size: 1.2rem;
+            margin-bottom: 18px;
+            transition: all 0.2s ease;
+            outline: none;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .search-input:focus {
+            border-color: #1a1a1a;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-input::placeholder {
+            color: #1a1a1a;
+            opacity: 0.4;
+        }
+
+        .search-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .search-btn {
+            flex: 1;
+            padding: 14px 24px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            background: #ffffff;
+            color: #1a1a1a;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            font-weight: 400;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .search-btn:hover {
+            background: rgba(0, 0, 0, 0.06);
+            transform: scale(1.02);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-btn:active {
+            transform: scale(0.98);
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #1a1a1a;
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+                opacity: 0;
+            }
+            10%, 90% {
+                opacity: 0.1;
+            }
+            50% {
+                transform: translate(var(--tx), var(--ty)) scale(1);
+                opacity: 0.1;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+            .time {
+                font-size: 2rem;
+            }
+            .time-card, .search-card {
+                padding: 20px 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+
+    <div class="container">
+        <div class="time-card">
+            <div class="time" id="time">00:00:00</div>
+            <div class="date" id="date">2024年1月1日 星期一</div>
+        </div>
+
+        <div class="search-card">
+            <input 
+                type="text" 
+                class="search-input" 
+                id="searchInput" 
+                placeholder="搜索任何内容..."
+                autocomplete="off"
+            >
+            <div class="search-buttons">
+                <button class="search-btn" id="googleBtn">Google</button>
+                <button class="search-btn" id="bingBtn">Bing</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('zh-CN', {
+                hour12: false,
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            
+            const dateStr = now.toLocaleDateString('zh-CN', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                weekday: 'long'
+            });
+            
+            document.getElementById('time').textContent = timeStr;
+            document.getElementById('date').textContent = dateStr;
+        }
+
+        function search(engine) {
+            const query = document.getElementById('searchInput').value.trim();
+            if (!query) return;
+            
+            const urls = {
+                google: `https://www.google.com/search?q=${encodeURIComponent(query)}`,
+                bing: `https://www.bing.com/search?q=${encodeURIComponent(query)}`
+            };
+            
+            window.location.href = urls[engine];
+        }
+
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 8;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                const tx = (Math.random() - 0.5) * 100;
+                const ty = (Math.random() - 0.5) * 100;
+                const delay = Math.random() * 15;
+                const duration = 15 + Math.random() * 10;
+                
+                particle.style.setProperty('--tx', `${tx}px`);
+                particle.style.setProperty('--ty', `${ty}px`);
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                particle.style.animationDelay = `${delay}s`;
+                particle.style.animationDuration = `${duration}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        document.getElementById('googleBtn').addEventListener('click', () => search('google'));
+        document.getElementById('bingBtn').addEventListener('click', () => search('bing'));
+        
+        document.getElementById('searchInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                search('google');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateTime();
+            createParticles();
+            setInterval(updateTime, 1000);
+        });
+    </script>
+</body>
+</html>
