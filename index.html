@@ -5,6 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>极简导航页</title>
     <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #1a1a1a;
+            --card-bg: rgba(0, 0, 0, 0.03);
+            --border-color: rgba(0, 0, 0, 0.1);
+            --shadow-light: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 4px 20px rgba(0, 0, 0, 0.12);
+            --input-bg: #ffffff;
+            --placeholder-opacity: 0.4;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #0a0a0a;
+            --text-color: #f0f0f0;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --shadow-light: 0 4px 20px rgba(0, 0, 0, 0.3);
+            --shadow-hover: 0 4px 20px rgba(0, 0, 0, 0.4);
+            --input-bg: #1a1a1a;
+            --placeholder-opacity: 0.6;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,13 +35,14 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #ffffff;
-            color: #1a1a1a;
+            background: var(--bg-color);
+            color: var(--text-color);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         .container {
@@ -31,14 +54,14 @@
         }
 
         .time-card {
-            background: rgba(0, 0, 0, 0.03);
-            border: 1px solid rgba(0, 0, 0, 0.1);
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
             border-radius: 20px;
             padding: 20px;
             margin: 0 auto 15px;
             width: 80%;
             backdrop-filter: blur(10px);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            box-shadow: var(--shadow-light);
             transition: all 0.2s ease;
             animation: fadeInUp 0.5s ease-out;
         }
@@ -46,6 +69,11 @@
         .time-card:hover {
             background: rgba(0, 0, 0, 0.06);
             transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        [data-theme="dark"] .time-card:hover {
+            background: rgba(255, 255, 255, 0.08);
         }
 
         .time {
@@ -63,15 +91,15 @@
         }
 
         .search-card {
-            background: rgba(0, 0, 0, 0.03);
-            border: 1px solid rgba(0, 0, 0, 0.1);
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
             border-radius: 20px;
             padding: 25px 30px;
-            width: 120%;
+            width: 100%;
             max-width: 700px;
             margin: 0 auto;
             backdrop-filter: blur(10px);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            box-shadow: var(--shadow-light);
             transition: all 0.2s ease;
             animation: fadeInUp 0.5s ease-out 0.1s both;
         }
@@ -79,15 +107,20 @@
         .search-card:hover {
             background: rgba(0, 0, 0, 0.06);
             transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        [data-theme="dark"] .search-card:hover {
+            background: rgba(255, 255, 255, 0.08);
         }
 
         .search-input {
             width: 100%;
             padding: 22px 45px;
-            border: 1px solid rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
             border-radius: 16px;
-            background: #ffffff;
-            color: #1a1a1a;
+            background: var(--input-bg);
+            color: var(--text-color);
             font-size: 1.2rem;
             margin-bottom: 18px;
             transition: all 0.2s ease;
@@ -96,13 +129,13 @@
         }
 
         .search-input:focus {
-            border-color: #1a1a1a;
+            border-color: var(--text-color);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
 
         .search-input::placeholder {
-            color: #1a1a1a;
-            opacity: 0.4;
+            color: var(--text-color);
+            opacity: var(--placeholder-opacity);
         }
 
         .search-buttons {
@@ -113,10 +146,10 @@
         .search-btn {
             flex: 1;
             padding: 14px 24px;
-            border: 1px solid rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
             border-radius: 12px;
-            background: #ffffff;
-            color: #1a1a1a;
+            background: var(--input-bg);
+            color: var(--text-color);
             font-size: 1rem;
             cursor: pointer;
             transition: all 0.15s ease;
@@ -128,6 +161,10 @@
             background: rgba(0, 0, 0, 0.06);
             transform: scale(1.02);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] .search-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
         }
 
         .search-btn:active {
@@ -148,7 +185,7 @@
             position: absolute;
             width: 2px;
             height: 2px;
-            background: #1a1a1a;
+            background: var(--text-color);
             border-radius: 50%;
             opacity: 0.1;
             animation: float 15s infinite ease-in-out;
@@ -188,35 +225,63 @@
             }
             .time-card, .search-card {
                 padding: 20px 25px;
+                width: 100%;
             }
+            .search-buttons {
+                flex-direction: column;
+            }
+        }
+
+        /* 优化：添加焦点管理以提升可访问性 */
+        .search-input:focus + .search-buttons .search-btn,
+        .search-btn:focus {
+            outline: 2px solid var(--text-color);
+            outline-offset: 2px;
         }
     </style>
 </head>
-<body>
+<body data-theme="light">
     <div class="particles" id="particles"></div>
 
     <div class="container">
-        <div class="time-card">
-            <div class="time" id="time">00:00:00</div>
-            <div class="date" id="date">2024年1月1日 星期一</div>
+        <div class="time-card" role="complementary" aria-live="polite">
+            <div class="time" id="time" aria-label="当前时间">00:00:00</div>
+            <div class="date" id="date" aria-label="当前日期">2024年1月1日 星期一</div>
         </div>
 
-        <div class="search-card">
+        <div class="search-card" role="search">
             <input 
-                type="text" 
+                type="search" 
                 class="search-input" 
                 id="searchInput" 
                 placeholder="搜索任何内容..."
                 autocomplete="off"
+                aria-label="搜索输入框"
             >
-            <div class="search-buttons">
-                <button class="search-btn" id="googleBtn">Google</button>
-                <button class="search-btn" id="bingBtn">Bing</button>
+            <div class="search-buttons" role="group" aria-label="搜索引擎选择">
+                <button class="search-btn" id="googleBtn" type="button">Google</button>
+                <button class="search-btn" id="bingBtn" type="button">Bing</button>
             </div>
         </div>
     </div>
 
     <script>
+        // 自动主题切换：基于系统偏好，无手动按钮
+        const body = document.body;
+
+        function setTheme(theme) {
+            body.setAttribute('data-theme', theme);
+        }
+
+        // 初始设置基于系统偏好
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        setTheme(prefersDark ? 'dark' : 'light');
+
+        // 监听系统主题变化
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            setTheme(e.matches ? 'dark' : 'light');
+        });
+
         function updateTime() {
             const now = new Date();
             const timeStr = now.toLocaleTimeString('zh-CN', {
@@ -239,7 +304,11 @@
 
         function search(engine) {
             const query = document.getElementById('searchInput').value.trim();
-            if (!query) return;
+            if (!query) {
+                // 优化：如果查询为空，聚焦输入框并提示
+                document.getElementById('searchInput').focus();
+                return;
+            }
             
             const urls = {
                 google: `https://www.google.com/search?q=${encodeURIComponent(query)}`,
@@ -249,9 +318,10 @@
             window.location.href = urls[engine];
         }
 
+        // 优化：增加粒子数量到12，提升视觉效果但不影响性能
         function createParticles() {
             const particlesContainer = document.getElementById('particles');
-            const particleCount = 8;
+            const particleCount = 12;
             
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
@@ -278,14 +348,16 @@
         
         document.getElementById('searchInput').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
-                search('google');
+                search('google'); // 默认Google
             }
         });
 
+        // 优化：页面加载时聚焦搜索框，提升用户体验
         document.addEventListener('DOMContentLoaded', () => {
             updateTime();
             createParticles();
             setInterval(updateTime, 1000);
+            document.getElementById('searchInput').focus();
         });
     </script>
 </body>
