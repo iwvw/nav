@@ -5,359 +5,146 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>极简导航页</title>
     <style>
-        :root {
-            --bg-color: #ffffff;
-            --text-color: #1a1a1a;
-            --card-bg: rgba(0, 0, 0, 0.03);
-            --border-color: rgba(0, 0, 0, 0.1);
-            --shadow-light: 0 4px 20px rgba(0, 0, 0, 0.08);
-            --shadow-hover: 0 4px 20px rgba(0, 0, 0, 0.12);
-            --input-bg: #ffffff;
-            --placeholder-opacity: 0.4;
-        }
-
-        [data-theme="dark"] {
-            --bg-color: #0a0a0a;
-            --text-color: #f0f0f0;
-            --card-bg: rgba(255, 255, 255, 0.05);
-            --border-color: rgba(255, 255, 255, 0.1);
-            --shadow-light: 0 4px 20px rgba(0, 0, 0, 0.3);
-            --shadow-hover: 0 4px 20px rgba(0, 0, 0, 0.4);
-            --input-bg: #1a1a1a;
-            --placeholder-opacity: 0.6;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg-color);
-            color: var(--text-color);
+            background: #ffffff url('https://source.unsplash.com/random/1920x1080/?minimal,abstract') no-repeat center center / cover;
+            color: #1a1a1a;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            transition: background-color 0.3s, color 0.3s;
         }
-
-        .container {
-            text-align: center;
-            max-width: 800px;
-            width: 100%;
-            padding: 20px;
-            transform: translateY(-30px);
+        @media (prefers-color-scheme: dark) {
+            body { background-color: #1a1a1a; color: #ffffff; background-blend-mode: darken; }
+            .time-card, .search-card, .weather-card { background: rgba(255, 255, 255, 0.03); border-color: rgba(255, 255, 255, 0.1); }
+            .search-input { background: #1a1a1a; color: #ffffff; border-color: rgba(255, 255, 255, 0.1); }
+            .search-input::placeholder { color: #ffffff; opacity: 0.4; }
+            .search-btn { background: #1a1a1a; color: #ffffff; border-color: rgba(255, 255, 255, 0.1); }
+            .search-btn:hover { background: rgba(255, 255, 255, 0.06); }
         }
-
-        .time-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 20px;
-            margin: 0 auto 15px;
-            width: 80%;
-            backdrop-filter: blur(10px);
-            box-shadow: var(--shadow-light);
-            transition: all 0.2s ease;
-            animation: fadeInUp 0.5s ease-out;
-        }
-
-        .time-card:hover {
-            background: rgba(0, 0, 0, 0.06);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        [data-theme="dark"] .time-card:hover {
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        .time {
-            font-size: 2.5rem;
-            font-weight: 200;
-            letter-spacing: 2px;
-            margin-bottom: 8px;
-            font-variant-numeric: tabular-nums;
-        }
-
-        .date {
-            font-size: 0.9rem;
-            opacity: 0.7;
-            font-weight: 300;
-        }
-
-        .search-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 25px 30px;
-            width: 100%;
-            max-width: 700px;
-            margin: 0 auto;
-            backdrop-filter: blur(10px);
-            box-shadow: var(--shadow-light);
-            transition: all 0.2s ease;
-            animation: fadeInUp 0.5s ease-out 0.1s both;
-        }
-
-        .search-card:hover {
-            background: rgba(0, 0, 0, 0.06);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        [data-theme="dark"] .search-card:hover {
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 22px 45px;
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            background: var(--input-bg);
-            color: var(--text-color);
-            font-size: 1.2rem;
-            margin-bottom: 18px;
-            transition: all 0.2s ease;
-            outline: none;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        }
-
-        .search-input:focus {
-            border-color: var(--text-color);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .search-input::placeholder {
-            color: var(--text-color);
-            opacity: var(--placeholder-opacity);
-        }
-
-        .search-buttons {
-            display: flex;
-            gap: 12px;
-        }
-
-        .search-btn {
-            flex: 1;
-            padding: 14px 24px;
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            background: var(--input-bg);
-            color: var(--text-color);
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.15s ease;
-            font-weight: 400;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        }
-
-        .search-btn:hover {
-            background: rgba(0, 0, 0, 0.06);
-            transform: scale(1.02);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        [data-theme="dark"] .search-btn:hover {
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        .search-btn:active {
-            transform: scale(0.98);
-        }
-
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .particle {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: var(--text-color);
-            border-radius: 50%;
-            opacity: 0.1;
-            animation: float 15s infinite ease-in-out;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translate(0, 0) scale(1);
-                opacity: 0;
-            }
-            10%, 90% {
-                opacity: 0.1;
-            }
-            50% {
-                transform: translate(var(--tx), var(--ty)) scale(1);
-                opacity: 0.1;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .container {
-                padding: 15px;
-            }
-            .time {
-                font-size: 2rem;
-            }
-            .time-card, .search-card {
-                padding: 20px 25px;
-                width: 100%;
-            }
-            .search-buttons {
-                flex-direction: column;
-            }
-        }
-
-        /* 优化：添加焦点管理以提升可访问性 */
-        .search-input:focus + .search-buttons .search-btn,
-        .search-btn:focus {
-            outline: 2px solid var(--text-color);
-            outline-offset: 2px;
-        }
+        .container { text-align: center; max-width: 800px; width: 100%; padding: 20px; transform: translateY(-30px); }
+        .time-card, .weather-card { background: rgba(0, 0, 0, 0.03); border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 20px; padding: 20px; margin: 0 auto 15px; width: 80%; backdrop-filter: blur(10px); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); transition: all 0.2s ease; animation: fadeInUp 0.5s ease-out; }
+        .time-card:hover, .weather-card:hover { background: rgba(0, 0, 0, 0.06); transform: translateY(-2px); }
+        .time { font-size: 2.5rem; font-weight: 200; letter-spacing: 2px; margin-bottom: 8px; font-variant-numeric: tabular-nums; }
+        .date { font-size: 0.9rem; opacity: 0.7; font-weight: 300; }
+        .weather { display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .weather-icon { width: 40px; height: 40px; }
+        .weather-temp { font-size: 1.5rem; font-weight: 300; }
+        .weather-desc { font-size: 0.9rem; opacity: 0.7; }
+        .search-card { background: rgba(0, 0, 0, 0.03); border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 20px; padding: 25px 30px; width: 120%; max-width: 700px; margin: 0 auto; backdrop-filter: blur(10px); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); transition: all 0.2s ease; animation: fadeInUp 0.5s ease-out 0.1s both; }
+        .search-card:hover { background: rgba(0, 0, 0, 0.06); transform: translateY(-2px); }
+        .search-input { width: 100%; padding: 22px 45px; border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 16px; background: #ffffff; color: #1a1a1a; font-size: 1.2rem; margin-bottom: 18px; transition: all 0.2s ease; outline: none; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); }
+        .search-input:focus { border-color: #1a1a1a; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); }
+        .search-input::placeholder { color: #1a1a1a; opacity: 0.4; }
+        .search-buttons { display: flex; gap: 12px; }
+        .search-btn { flex: 1; padding: 14px 24px; border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 12px; background: #ffffff; color: #1a1a1a; font-size: 1rem; cursor: pointer; transition: all 0.15s ease; font-weight: 400; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); }
+        .search-btn:hover { background: rgba(0, 0, 0, 0.06); transform: scale(1.02); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); }
+        .search-btn:active { transform: scale(0.98); }
+        .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
+        .particle { position: absolute; width: 2px; height: 2px; background: #1a1a1a; border-radius: 50%; opacity: 0.1; animation: float 15s infinite ease-in-out; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes float { 0%, 100% { transform: translate(0, 0) scale(1); opacity: 0; } 10%, 90% { opacity: 0.1; } 50% { transform: translate(var(--tx), var(--ty)) scale(1); opacity: 0.1; } }
+        @media (max-width: 480px) { .container { padding: 15px; } .time { font-size: 2rem; } .time-card, .search-card, .weather-card { padding: 20px 25px; } }
     </style>
 </head>
-<body data-theme="light">
+<body>
     <div class="particles" id="particles"></div>
-
     <div class="container">
-        <div class="time-card" role="complementary" aria-live="polite">
-            <div class="time" id="time" aria-label="当前时间">00:00:00</div>
-            <div class="date" id="date" aria-label="当前日期">2024年1月1日 星期一</div>
+        <div class="time-card">
+            <div class="time" id="time">00:00:00</div>
+            <div class="date" id="date">2024年1月1日 星期一</div>
         </div>
-
-        <div class="search-card" role="search">
-            <input 
-                type="search" 
-                class="search-input" 
-                id="searchInput" 
-                placeholder="搜索任何内容..."
-                autocomplete="off"
-                aria-label="搜索输入框"
-            >
-            <div class="search-buttons" role="group" aria-label="搜索引擎选择">
-                <button class="search-btn" id="googleBtn" type="button">Google</button>
-                <button class="search-btn" id="bingBtn" type="button">Bing</button>
+        <div class="weather-card" id="weather-card" style="display: none;">
+            <div class="weather">
+                <img id="weather-icon" class="weather-icon" src="" alt="Weather Icon">
+                <span id="weather-temp" class="weather-temp"></span>
+                <span id="weather-desc" class="weather-desc"></span>
+            </div>
+        </div>
+        <div class="search-card">
+            <input type="text" class="search-input" id="searchInput" placeholder="搜索任何内容..." autocomplete="off" autofocus>
+            <div class="search-buttons">
+                <button class="search-btn" id="googleBtn">Google</button>
+                <button class="search-btn" id="bingBtn">Bing</button>
+                <button class="search-btn" id="baiduBtn">Baidu</button>
             </div>
         </div>
     </div>
-
     <script>
-        // 自动主题切换：基于系统偏好，无手动按钮
-        const body = document.body;
-
-        function setTheme(theme) {
-            body.setAttribute('data-theme', theme);
-        }
-
-        // 初始设置基于系统偏好
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        setTheme(prefersDark ? 'dark' : 'light');
-
-        // 监听系统主题变化
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-            setTheme(e.matches ? 'dark' : 'light');
-        });
-
         function updateTime() {
             const now = new Date();
-            const timeStr = now.toLocaleTimeString('zh-CN', {
-                hour12: false,
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            });
-            
-            const dateStr = now.toLocaleDateString('zh-CN', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                weekday: 'long'
-            });
-            
+            const timeStr = now.toLocaleTimeString('zh-CN', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            const dateStr = now.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' });
             document.getElementById('time').textContent = timeStr;
             document.getElementById('date').textContent = dateStr;
         }
-
         function search(engine) {
             const query = document.getElementById('searchInput').value.trim();
-            if (!query) {
-                // 优化：如果查询为空，聚焦输入框并提示
-                document.getElementById('searchInput').focus();
-                return;
-            }
-            
+            if (!query) return;
             const urls = {
                 google: `https://www.google.com/search?q=${encodeURIComponent(query)}`,
-                bing: `https://www.bing.com/search?q=${encodeURIComponent(query)}`
+                bing: `https://www.bing.com/search?q=${encodeURIComponent(query)}`,
+                baidu: `https://www.baidu.com/s?wd=${encodeURIComponent(query)}`
             };
-            
             window.location.href = urls[engine];
         }
-
-        // 优化：增加粒子数量到12，提升视觉效果但不影响性能
         function createParticles() {
             const particlesContainer = document.getElementById('particles');
-            const particleCount = 12;
-            
+            const particleCount = 8;
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
-                
                 const tx = (Math.random() - 0.5) * 100;
                 const ty = (Math.random() - 0.5) * 100;
                 const delay = Math.random() * 15;
                 const duration = 15 + Math.random() * 10;
-                
                 particle.style.setProperty('--tx', `${tx}px`);
                 particle.style.setProperty('--ty', `${ty}px`);
                 particle.style.left = `${Math.random() * 100}%`;
                 particle.style.top = `${Math.random() * 100}%`;
                 particle.style.animationDelay = `${delay}s`;
                 particle.style.animationDuration = `${duration}s`;
-                
                 particlesContainer.appendChild(particle);
             }
         }
-
+        function fetchWeather() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(async (position) => {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+                    const apiKey = 'YOUR_OPENWEATHERMAP_API_KEY'; // Replace with your API key
+                    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
+                    try {
+                        const response = await fetch(url);
+                        const data = await response.json();
+                        if (response.ok) {
+                            document.getElementById('weather-icon').src = `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+                            document.getElementById('weather-temp').textContent = `${Math.round(data.main.temp)}°C`;
+                            document.getElementById('weather-desc').textContent = data.weather[0].description;
+                            document.getElementById('weather-card').style.display = 'block';
+                        }
+                    } catch (error) {
+                        console.error('Weather fetch error:', error);
+                    }
+                }, (error) => {
+                    console.error('Geolocation error:', error);
+                });
+            }
+        }
         document.getElementById('googleBtn').addEventListener('click', () => search('google'));
         document.getElementById('bingBtn').addEventListener('click', () => search('bing'));
-        
+        document.getElementById('baiduBtn').addEventListener('click', () => search('baidu'));
         document.getElementById('searchInput').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                search('google'); // 默认Google
-            }
+            if (e.key === 'Enter') { search('google'); }
         });
-
-        // 优化：页面加载时聚焦搜索框，提升用户体验
         document.addEventListener('DOMContentLoaded', () => {
             updateTime();
             createParticles();
+            fetchWeather();
             setInterval(updateTime, 1000);
-            document.getElementById('searchInput').focus();
         });
     </script>
 </body>
